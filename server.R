@@ -3,13 +3,14 @@ srv <- serverSocket(port)
 cat(sprintf("Listening on port %d\n", port))
 
 reply <- function(con, status, ctype, body, head_only=FALSE) {
+  content_length <- nchar(body, type="bytes")
   payload <- if (head_only) "" else body
   hdr <- paste0(
     "HTTP/1.1 ", status, "\r\n",
     "Content-Type: ", ctype, "\r\n",
     "Cache-Control: no-store\r\n",
     "X-Content-Type-Options: nosniff\r\n",
-    "Content-Length: ", nchar(payload, type="bytes"), "\r\n",
+    "Content-Length: ", content_length, "\r\n",
     "Connection: close\r\n\r\n",
     payload
   )
