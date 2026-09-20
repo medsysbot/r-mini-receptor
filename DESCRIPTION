@@ -1,0 +1,8 @@
+Package: rminireceptor
+Type: Package
+Title: GovernEvo R Mini Receptor
+Version: 0.1.0
+Authors@R: person("Codigo Mate", role=c("aut","cre"), email="noreply@example.invalid")
+Description: Minimal R runtime receptor for GovernEvo portability verification.
+License: MIT
+Encoding: UTF-8
