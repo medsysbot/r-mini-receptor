@@ -1,22 +1,6 @@
 {
-  "schema_version": "1.0",
-  "application_id": "r-mini-receptor",
-  "connector_id": "governevo-smart-connector",
-  "connector_version": "0.3.0",
-  "protocol": "governevo-receiver-http-json/1.0",
-  "runtime_family": "r",
-  "driver_id": "universal-sdk:r",
-  "operations": [
-    "diagnose",
-    "evolve",
-    "repair"
-  ],
-  "security": {
-    "declarative_only": true,
-    "allow_shell": false,
-    "allow_process_execution": false,
-    "allow_environment_read": false,
-    "allow_arbitrary_network": false,
-    "contains_secrets": false
-  }
+  "schema_version": "2.0",
+  "name": "R Mini Receptor",
+  "public_url": "https://r-mini-receptor-production.up.railway.app",
+  "health": "/"
 }
