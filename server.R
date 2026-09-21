@@ -84,7 +84,12 @@ srv <- serverSocket(port)
 cat(sprintf("Listening on port %d\n", port))
 
 repeat {
-  con <- socketAccept(srv, blocking=TRUE, open="r+b", timeout=8)
+  con <- tryCatch(
+    socketAccept(srv, blocking=TRUE, open="r+b", timeout=8),
+    error=function(e) NULL
+  )
+  if (is.null(con)) next
+
   tryCatch({
     line <- readLines(con, n=1, warn=FALSE)
     parts <- strsplit(ifelse(length(line), line, ""), " +")[[1]]
