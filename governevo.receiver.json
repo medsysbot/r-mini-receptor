@@ -3,6 +3,7 @@
   "name": "R Mini Receptor",
   "repository": "medsysbot/r-mini-receptor",
   "branch": "main",
+  "credential_ref": "GOVERNEVO_GITHUB_TOKEN_R",
   "public_url": "https://r-mini-receptor-production.up.railway.app",
   "health": "/"
 }
