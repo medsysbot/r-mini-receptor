@@ -20,7 +20,44 @@ page <- paste0(
 '<div class="card"><b id="meanA">—</b><span>Baseline mean</span></div><div class="card"><b id="meanB">—</b><span>Candidate mean</span></div>',
 '<div class="card"><b id="delta">—</b><span>Delta %</span></div><div class="card"><b id="effect">—</b><span>Effect size</span></div></div>',
 '<div class="note" id="status">Ready.</div></section></main>',
-'<script>async function analyze(){const q=new URLSearchParams({baseline:baseline.value,candidate:candidate.value});const r=await fetch("/api/compare?"+q);const d=await r.json();if(!r.ok){status.textContent=d.error||"Analysis failed";return}meanA.textContent=d.baseline_mean.toFixed(2);meanB.textContent=d.candidate_mean.toFixed(2);delta.textContent=d.delta_percent.toFixed(2)+"%";effect.textContent=d.effect_size.toFixed(2);status.textContent=d.message;}analyze();</script>',
+'<script>
+async function analyze(){
+  status.textContent = "Analyzing…";
+  try {
+    const q = new URLSearchParams({baseline: baseline.value, candidate: candidate.value});
+    const r = await fetch("/api/compare?" + q);
+
+    // Best-effort response parsing: errors may not be JSON, and network/proxy
+    // failures may produce empty bodies.
+    let d = null;
+    try {
+      d = await r.json();
+    } catch (e) {
+      d = null;
+    }
+
+    if(!r.ok){
+      const serverMsg = (d && (d.error || d.message)) ? (d.error || d.message) : null;
+      status.textContent = `Request failed (HTTP ${r.status}).` + (serverMsg ? ` ${serverMsg}` : "");
+      return;
+    }
+
+    if(!d){
+      status.textContent = `Request failed (HTTP ${r.status}). Invalid JSON response.`;
+      return;
+    }
+
+    meanA.textContent = d.baseline_mean.toFixed(2);
+    meanB.textContent = d.candidate_mean.toFixed(2);
+    delta.textContent = d.delta_percent.toFixed(2) + "%";
+    effect.textContent = d.effect_size.toFixed(2);
+    status.textContent = d.message;
+  } catch (e) {
+    status.textContent = "Request failed. Please check your connection and try again.";
+  }
+}
+analyze();
+</script>',
 '</body></html>'
 )
 
