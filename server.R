@@ -67,6 +67,8 @@ reply <- function(con, status, ctype, body) {
     "Content-Type: ", ctype, "\r\n",
     "Cache-Control: no-store\r\n",
     "X-Content-Type-Options: nosniff\r\n",
+    "X-Frame-Options: DENY\r\n",
+    "Content-Security-Policy: frame-ancestors 'none'\r\n",
     "Content-Length: ", nchar(body, type="bytes"), "\r\n",
     "Connection: close\r\n\r\n",
     body
