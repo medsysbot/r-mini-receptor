@@ -109,7 +109,14 @@ query_params <- function(target) {
 }
 
 parse_series <- function(text) {
-  items <- unlist(strsplit(gsub(",", "\n", text, fixed=TRUE), "\n", fixed=TRUE))
+  # Accept common delimiters when users paste from spreadsheets/terminals:
+  # - newline (already supported)
+  # - comma
+  # - semicolon
+  # - whitespace (spaces/tabs)
+  # Keep strict numeric validation and the existing max length constraint.
+  normalized <- gsub("[;,]", "\n", text)
+  items <- unlist(strsplit(normalized, "\\s+", perl=TRUE))
   items <- trimws(items)
   items <- items[nzchar(items)]
   values <- suppressWarnings(as.numeric(items))
